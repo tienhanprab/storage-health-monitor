@@ -19,13 +19,14 @@ External USB drives often do not expose SMART data due to USB bridge limitations
 
 ```mermaid
 flowchart TD
-      A[diskutil list<br/>(macOS Native Tool)] --> B[Disk Detector<br/>(Physical Disks)]
-      B --> C[SMART Capability Detector]
-      C --> D[SMART OK]
-      C --> E[SMART UNAVAILABLE]
-      D --> F[SMART Health Analyzer]
-      E --> G[Indirect Health Analyzer]
-      F --> H[Health Scoring Engine<br/>(0–100 Score)]
-      G --> H
-      H --> I[Unified Health Report<br/>Status + Diagnostics]
+    A[diskutil list<br/>(macOS Native Tool)] --> B[Disk Detector<br/>(Physical Disks)]
+    B --> C[SMART Capability Detector]
+    C --> D[SMART OK]
+    C --> E[SMART UNAVAILABLE]
+    D --> F[SMART Health Analyzer]
+    E --> G[Indirect Health Analyzer]
+    F --> H[Health Scoring Engine<br/>(0–100 Score)]
+    G --> H
+    H --> I[Unified Health Report<br/>Status + Diagnostics]
 ```
+
