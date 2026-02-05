@@ -16,17 +16,71 @@ External USB drives often do not expose SMART data due to USB bridge limitations
 - Non-SMART: disk usage, I/O latency, OS-level indicators
 
 ## Architecture Diagram
-
-```mermaid
-flowchart TD
-    A[diskutil list<br/>(macOS Native Tool)] --> B[Disk Detector<br/>(Physical Disks)]
-    B --> C[SMART Capability Detector]
-    C --> D[SMART OK]
-    C --> E[SMART UNAVAILABLE]
-    D --> F[SMART Health Analyzer]
-    E --> G[Indirect Health Analyzer]
-    F --> H[Health Scoring Engine<br/>(0–100 Score)]
-    G --> H
-    H --> I[Unified Health Report<br/>Status + Diagnostics]
-```
-
++--------------------------+
+|        Start             |
++------------+-------------+
+             |
+             v
++--------------------------+
+| Run: diskutil list       |
+| Detect physical disks    |
++------------+-------------+
+             |
+             v
++--------------------------+
+| For each physical disk   |
++------------+-------------+
+             |
+             v
++--------------------------+
+| Attempt SMART detection  |
+| (smartctl probing)       |
++------------+-------------+
+             |
+             v
+        +----+----+
+        | SMART ? |
+        +----+----+
+             |
+     +-------+-------+
+     |               |
+     v               v
++------------+   +----------------------+
+| SMART Mode |   | SMART Unavailable    |
+| Detected   |   | (USB / Limitation)   |
++------+-----+   +----------+-----------+
+       |                    |
+       v                    v
++-------------+    +--------------------+
+| Parse SMART |    | Indirect Health    |
+| Data        |    | Check              |
+| (NVMe/ATA)  |    | - Disk usage       |
++------+------|    | - I/O latency      |
+       |           | - OS indicators    |
+       |           +---------+----------+
+       |                     |
+       +----------+----------+
+                  |
+                  v
++--------------------------+
+| Calculate Health Score   |
+| (Normalize to 0–100)     |
++------------+-------------+
+             |
+             v
++--------------------------+
+| Assign Health Status     |
+| HEALTHY / WARNING /     |
+| CRITICAL                 |
++------------+-------------+
+             |
+             v
++--------------------------+
+| Build Unified Report     |
+| (JSON / CLI Output)     |
++------------+-------------+
+             |
+             v
++--------------------------+
+|            End           |
++--------------------------+
