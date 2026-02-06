@@ -16,71 +16,24 @@ External USB drives often do not expose SMART data due to USB bridge limitations
 - Non-SMART: disk usage, I/O latency, OS-level indicators
 
 ## Architecture Diagram
-+--------------------------+
-|        Start             |
-+------------+-------------+
-             |
-             v
-+--------------------------+
-| Run: diskutil list       |
-| Detect physical disks    |
-+------------+-------------+
-             |
-             v
-+--------------------------+
-| For each physical disk   |
-+------------+-------------+
-             |
-             v
-+--------------------------+
-| Attempt SMART detection  |
-| (smartctl probing)       |
-+------------+-------------+
-             |
-             v
-        +----+----+
-        | SMART ? |
-        +----+----+
-             |
-     +-------+-------+
-     |               |
-     v               v
-+------------+   +----------------------+
-| SMART Mode |   | SMART Unavailable    |
-| Detected   |   | (USB / Limitation)   |
-+------+-----+   +----------+-----------+
-       |                    |
-       v                    v
-+-------------+    +--------------------+
-| Parse SMART |    | Indirect Health    |
-| Data        |    | Check              |
-| (NVMe/ATA)  |    | - Disk usage       |
-+------+------|    | - I/O latency      |
-       |           | - OS indicators    |
-       |           +---------+----------+
-       |                     |
-       +----------+----------+
-                  |
-                  v
-+--------------------------+
-| Calculate Health Score   |
-| (Normalize to 0–100)     |
-+------------+-------------+
-             |
-             v
-+--------------------------+
-| Assign Health Status     |
-| HEALTHY / WARNING /     |
-| CRITICAL                 |
-+------------+-------------+
-             |
-             v
-+--------------------------+
-| Build Unified Report     |
-| (JSON / CLI Output)     |
-+------------+-------------+
-             |
-             v
-+--------------------------+
-|            End           |
-+--------------------------+
+
+![Architecture Diagram](images/architecture.png)
+
+## Images
+
+All project images are stored in the [`images`](images/) folder.
+
+### Image References
+
+To reference images in markdown, use the following syntax:
+
+```markdown
+![Alt text](images/image-name.png)
+```
+
+Examples:
+```markdown
+![Storage Health Monitor Flow](images/storage-flow.png)
+![SMART Data Structure](images/smart-structure.png)
+![Disk Detection Process](images/detection-process.png)
+```
