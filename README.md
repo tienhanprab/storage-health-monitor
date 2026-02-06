@@ -17,23 +17,8 @@ External USB drives often do not expose SMART data due to USB bridge limitations
 
 ## Architecture Diagram
 
-![Architecture Diagram](images/architecture.png)
+<p align="center"><img src="images/storage-flow.png" width="500"></p>
 
 ## Images
 
 All project images are stored in the [`images`](images/) folder.
-
-### Image References
-
-To reference images in markdown, use the following syntax:
-
-```markdown
-![Alt text](images/image-name.png)
-```
-
-Examples:
-```markdown
-![Storage Health Monitor Flow](images/storage-flow.png)
-![SMART Data Structure](images/smart-structure.png)
-![Disk Detection Process](images/detection-process.png)
-```
