@@ -17,7 +17,7 @@ External USB drives often do not expose SMART data due to USB bridge limitations
 
 ## Architecture Diagram
 
-<p align="center"><img src="images/storage-flow.png" width="500"></p>
+<p align="center"><img src="images/SMART Disk Health Pipeline.png" width="500"></p>
 
 ## Images
 
